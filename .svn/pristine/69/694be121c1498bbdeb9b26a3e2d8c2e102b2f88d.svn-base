@@ -1,0 +1,19 @@
+//테스트용
+
+import kickoff.dto.*;
+import kickoff.dao.*;
+import kickoff.vo.*;
+import java.util.*;
+
+public class test extends DBManager
+{
+	public static void main(String[] args) 
+	{
+		WordShapeSimilarityAnalyzer ws = new WordShapeSimilarityAnalyzer();
+		
+		
+		System.out.print(ws.setBase("안녕", "ㅁㄴㅇㄹ").analyze());
+		
+		
+	}
+}

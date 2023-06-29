@@ -1,0 +1,80 @@
+
+
+create table analyze_data1
+(
+	anal_no int auto_increment primary key comment '분석번호',
+	morph_origin_key longtext comment '형태소 원본단어',
+	post_no int comment '게시물번호',
+	anal_count int default 0 comment '빈도수',
+	foreign key (post_no) references post(post_no)
+) comment '분석데이터';
+
+create table analyze_data2
+(
+	analdata_no int auto_increment primary key comment '연관번호',
+	morph_relation_key longtext comment '형태소 분석단어',
+	anal_no int comment '분석번호',
+	foreign key (anal_no) references analyze_data1(anal_no)
+) comment '분석데이터';
+
+
+create table ad_info
+(
+	ad_no int auto_increment primary key comment '광고번호',
+	ad_name varchar(50) comment '광고이름',
+	ad_keyword varchar(200) comment '광고키워드',
+	ad_exposure int default 0 comment '광고노출횟수',
+	ad_click int default 0 comment '광고클릭횟수',
+	w_image_phyname varchar(100) comment '가로이미지 물리명',
+	w_image_fname varchar (100) comment '가로이미지 논리명',
+	h_image_phyname varchar (100) comment '세로이미지 물리명',
+	h_image_fname varchar (100) comment '세로이미지 논리명',
+	user_no int comment '회원번호',
+	post_no int comment '게시물번호',
+	foreign key (user_no) references userinfo(userv_no),
+	foreign key (post_no) references post(post_no)
+) comment '광고정보';
+
+create table user
+(
+	id varchar(50) primary key comment '회원아이디',
+	pw varchar(100) comment '비밀번호',
+	name varchar(50) comment '비밀번호',
+	gender varchar(2) comment '성별',
+	hobby varchar(20) comment '취미',
+	joindate datetime default now() comment '가입일자',
+	isretire varchar(2) default 'N' comment '탈퇴여부'
+) comment '회원정보';
+
+create table fav
+(
+	fno int auto_increment primary key comment '관리번호',
+	id varchar(50) comment '회원아이디',
+	fname varchar(50) comment '관심분야명',
+	foreign key (id) references user(id)	
+) comment '관심분야';
+
+create table board
+(
+	no int auto_increment primary key comment '번호',
+	id varchar(50) comment '회원아이디',
+	title varchar(200) comment '제목',
+	type varchar(200) comment '구분',
+	note text comment '내용',
+	phyname varchar(100) comment '물리파일명',
+	fname varchar(100) comment '논리파일명',
+	wdate datetime default now() comment '작성일',
+	hit int default 0 comment '조회수',
+	foreign key (id) references user(id)	
+) comment '게시판';
+
+create table reply
+(
+	rno int auto_increment primary key comment '댓글번호',
+	no int  comment '게시물번호',
+	id varchar(50) comment '작성자아이디',
+	rnote text comment '댓글내용',
+	rdate datetime default now() comment '작성일',
+	foreign key (no) references board(no),
+	foreign key (id) references user(id)
+) comment '댓글정보';
